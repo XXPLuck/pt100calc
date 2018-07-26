@@ -1,0 +1,9 @@
+F:\github\pt100\pt100calc\pt100calc\bin\Debug\pt100calc.exe.config
+F:\github\pt100\pt100calc\pt100calc\bin\Debug\pt100calc.exe
+F:\github\pt100\pt100calc\pt100calc\bin\Debug\pt100calc.pdb
+F:\github\pt100\pt100calc\pt100calc\obj\Debug\pt100calc.csprojResolveAssemblyReference.cache
+F:\github\pt100\pt100calc\pt100calc\obj\Debug\pt100calc.Form1.resources
+F:\github\pt100\pt100calc\pt100calc\obj\Debug\pt100calc.Properties.Resources.resources
+F:\github\pt100\pt100calc\pt100calc\obj\Debug\pt100calc.csproj.GenerateResource.Cache
+F:\github\pt100\pt100calc\pt100calc\obj\Debug\pt100calc.exe
+F:\github\pt100\pt100calc\pt100calc\obj\Debug\pt100calc.pdb
