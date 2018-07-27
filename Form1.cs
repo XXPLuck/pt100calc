@@ -33,7 +33,7 @@ namespace pt100calc
             if (resi.Text.Length < 2)
                 resi.Text = "18.52"; ;
             double resie = double.Parse(resi.Text.Trim());
-            double temper = 0,res1,res2;
+            double temper = 0, res1, res2;
             int i;
             if (resie < 18.52)
                 resi.Text = "18.52";
@@ -50,7 +50,7 @@ namespace pt100calc
                 {
                     temper += 0.01;
                     res2 = r * (1 + a * temper + b * temper * temper + c * (temper - r) * temper * temper * temper);
-                    if (res1 <= resie && res2 > resie)
+                    if (res1 <= resie && res2 >= resie)
                     {
                         if ((resie - res1) < (res2 - resie))
                         {
@@ -76,14 +76,19 @@ namespace pt100calc
                 resis = r * (1 + a * temper + b * temper * temper + c * (temper - r) * temper * temper * temper);
             }
             else
-                resis = r * (1 + a * temper + b * temper * temper );
+                resis = r * (1 + a * temper + b * temper * temper);
             resi.Text = resis.ToString("0.00");
 
         }
 
         private void tempe_TextChanged(object sender, EventArgs e)
         {
-            if (tempe.Text == "-" || tempe.Text == "")
+            if (tempe.Text == "\b")
+            {
+                tempe.Text = "";
+                return;
+            }
+            if (tempe.Text.Length < 3)
                 return;
             double temper = double.Parse(tempe.Text.Trim());
             if (temper > 850)
@@ -129,59 +134,9 @@ namespace pt100calc
                     tsb.Select(tsb.Text.Length, 0);   //将光标定位到textBox控件的末尾
                     e.Handled = true;
                 }
-                else if (tsb.Text.Contains("."))
+                else if (tsb.Text == "-")
                 {
-                    e.Handled = true;
-                }
-                else
-                {
-                    e.Handled = false;
-                }
-            }
-
-
-            if (tsb.Text.Length == 1 && tsb.Text[0] == '0' && (e.KeyChar != '.' || e.KeyChar != '-'))  //当出现连续数字时，去最前面的0
-            {
-                tsb.Text = e.KeyChar.ToString();
-                e.Handled = true;
-                tsb.Select(tsb.Text.Length, 0);
-            }
-            tsb.Focus();
-
-            //光标定位到文本最后
-
-            tsb.Select(tsb.TextLength, 0);
-        }
-
-        private void resi_TextChanged(object sender, EventArgs e)
-        {
-            if (resi.Text.Length < 3)
-                return;
-            double resie = double.Parse(resi.Text.Trim());
-            if (resie > 390.48)
-                resi.Text = "390.48";
-            if (resie < 18.52)
-                resi.Text = "18.52";
-        }
-
-        private void resi_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            TextBox tsb = sender as TextBox;
-            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 0x2E)   //如果不是数字
-            {
-                e.Handled = true;
-            }
-            if (e.KeyChar == '-')
-            {
-                e.Handled = true;              
-            }
-
-
-            if (e.KeyChar == '.')
-            {
-                if (tsb.Text == "")
-                {
-                    tsb.Text = "0.";
+                    tsb.Text = "-0.";
                     tsb.Select(tsb.Text.Length, 0);   //将光标定位到textBox控件的末尾
                     e.Handled = true;
                 }
@@ -196,7 +151,72 @@ namespace pt100calc
             }
 
 
-            if (tsb.Text.Length == 1 && tsb.Text[0] == '0' && (e.KeyChar != '.' || e.KeyChar != '-'))  //当出现连续数字时，去最前面的0
+            if (tsb.Text.Length == 1 && tsb.Text[0] == '0' && e.KeyChar != '.' && e.KeyChar != '-')  //当出现连续数字时，去最前面的0
+            {
+                tsb.Text = e.KeyChar.ToString();
+                e.Handled = true;
+                tsb.Select(tsb.Text.Length, 0);
+            }
+            tsb.Focus();
+
+            //光标定位到文本最后
+
+            tsb.Select(tsb.TextLength, 0);
+        }
+
+        private void resi_TextChanged(object sender, EventArgs e)
+        {
+            if (resi.Text == "\b")
+            {
+                resi.Text = "";
+                return;
+            }
+            if (resi.Text.Length < 3)
+                return;
+            double resie = double.Parse(resi.Text.Trim());
+            if (resie > 390.48)
+                resi.Text = "390.48";
+        }
+
+        private void resi_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox tsb = sender as TextBox;
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar) && e.KeyChar != 0x2E)   //如果不是数字
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '-')
+            {
+                e.Handled = true;
+            }
+
+
+            if (e.KeyChar == '.')
+            {
+                if (tsb.Text == "")
+                {
+                    tsb.Text = "0.";
+                    tsb.Select(tsb.Text.Length, 0);   //将光标定位到textBox控件的末尾
+                    e.Handled = true;
+                }
+                else if (tsb.Text == "-")
+                {
+                    tsb.Text = "-0.";
+                    tsb.Select(tsb.Text.Length, 0);   //将光标定位到textBox控件的末尾
+                    e.Handled = true;
+                }
+                else if (tsb.Text.Contains("."))
+                {
+                    e.Handled = true;
+                }
+                else
+                {
+                    e.Handled = false;
+                }
+            }
+
+
+            if (tsb.Text.Length == 1 && tsb.Text[0] == '0' && e.KeyChar != '.' && e.KeyChar != '-')  //当出现连续数字时，去最前面的0
             {
                 tsb.Text = e.KeyChar.ToString();
                 e.Handled = true;
